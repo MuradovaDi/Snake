@@ -16,22 +16,24 @@ class Play extends Phaser.Scene {
     }
   
     preload() {
-      this.load.image("snake", "http://127.0.0.1:5500/img/snake.png");
-      this.load.image("apple", "http://127.0.0.1:5500/img/apple.png");
-      this.load.audio("backgroundMusic", "http://127.0.0.1:5500/img/Sneaky-Snitch.mp3");
+      this.load.image("snake", "./img/snake.png");
+        this.load.image("apple", "./img/apple.png");
+        // Немає файлу такого, проект через це не запускається
+        // this.load.audio("backgroundMusic", "./img/Sneaky-Snitch.mp3");
     }
   
     create() {   
-      const music = this.sound.add('backgroundMusic', {
-        mute: false,
-        volume: 1,
-        rate: 1,
-        loop: true
-      });
-      music.play();
-                
-      let score;  
-      let bestScore;                   
+      // const music = this.sound.add("backgroundMusic", {
+    //   mute: false,
+    //   volume: 1,
+    //   rate: 1,
+    //   loop: true,
+    // });
+    // music.play();
+
+        // Ти ніде не використовуєшь ці змінні
+      // let score;  
+      // let bestScore;                   
       this.snake = new Snake(this);
       this.food = new Food(this);                       
   
@@ -44,6 +46,10 @@ class Play extends Phaser.Scene {
       // Add Text to top of game.
       this.textStyle_Key = { font: "bold 18px sans-serif", fill: "#46c0f9", align: "center" };
 
+
+      // Clean up previous score result
+      this.score = 0;
+        
       // Score.
       this.scoreText = this.add.text(90, 18, "Score: 0", this.textStyle_Value);
 
