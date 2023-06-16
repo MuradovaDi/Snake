@@ -7,8 +7,8 @@ class Snake {
       // Move the snake to the right
       this.oldDirection = 'right';
       this.direction;
-      this.timer = 0;
-      this.speed = 1;
+      this.moveTime = 0;
+      this.speed = 150;
   
       // Creating the body of the snake
       for (let i = 0; i < 3; i++) {
@@ -16,11 +16,6 @@ class Snake {
           this.scene.physics.add.image(150 + i * 15, 150, 'snake')
               .setOrigin(0)
         );
-      }
-  
-      // Generate Collisions
-      for (let i = 1; i < 10; i++) {
-        this.scene.physics.add.collider(this.body[0], this.body[i], () => this.crash())
       }
     }
   
@@ -38,11 +33,12 @@ class Snake {
     }
   
     crash() {
-      /*this.scene.scene.start('GameOver');*/
+      this.scene.scene.start('GameOver');
     }
   
     update(time) {
-      if(time > this.timer) {
+      
+      if(time > this.moveTime) {
         for (let i = this.body.length - 1; i > 0; i--) {
           this.body[i].x = this.body[i - 1].x;
           this.body[i].y = this.body[i - 1].y;
@@ -73,7 +69,7 @@ class Snake {
             this.body[0].y += 10;
             this.oldDirection = 'up';
         }
-        this.timer = time + 150;
+        this.moveTime = time + this.speed;
       }
     }
   }

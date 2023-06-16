@@ -3,12 +3,13 @@ import Food from "./apple.js";
 
 class Play extends Phaser.Scene {
     snake;
-    food;
-    speed; 
+    food; 
     cursors; 
     textStyle_Key;
     scoreText;
-    score;
+    score = 0;
+    bestScore = Number(localStorage.getItem("bestScore") || 0);
+      
   
     constructor() {
       super("Play");
@@ -17,11 +18,20 @@ class Play extends Phaser.Scene {
     preload() {
       this.load.image("snake", "http://127.0.0.1:5500/img/snake.png");
       this.load.image("apple", "http://127.0.0.1:5500/img/apple.png");
+      this.load.audio("backgroundMusic", "http://127.0.0.1:5500/img/Sneaky-Snitch.mp3");
     }
   
-    create() {                 
-      let squareSize = 15;                 
-      let score = 1;                     
+    create() {   
+      const music = this.sound.add('backgroundMusic', {
+        mute: false,
+        volume: 1,
+        rate: 1,
+        loop: true
+      });
+      music.play();
+                
+      let score;  
+      let bestScore;                   
       this.snake = new Snake(this);
       this.food = new Food(this);                       
   
@@ -38,7 +48,11 @@ class Play extends Phaser.Scene {
       this.scoreText = this.add.text(90, 18, "Score: 0", this.textStyle_Value);
 
       // Speed.
-      this.speedText = this.add.text(558, 18, "Speed: 0", this.textStyle_Value);
+      this.speedText = this.add.text(320, 18, "Speed: 0", this.textStyle_Value);
+
+      // Best score.
+      this.bestScoreText = this.add.text(550, 18, "Best score: 0", this.textStyle_Value);
+      this.bestScoreText.setText(`Best score: ${this.bestScore}`);
     }
   
     update(time) {
@@ -71,13 +85,21 @@ class Play extends Phaser.Scene {
     addPoint() {
       this.score++;
       this.scoreText.setText(`Score: ${this.score}`);
-      this.snake.speed +=3;
+      localStorage.setItem("score", this.score);
+      this.addBestScore();
+  
+      if (this.food.total % 5 === 0 && this.snake.speed !== 0) {
+        this.snake.speed -= 10;
+      }
       this.speedText.setText(`Speed: ${this.snake.speed}`);
+    }
+  
+    addBestScore() {
+      if (this.score > this.bestScore) {
+        localStorage.setItem("bestScore", this.bestScore);
+        this.bestScore = this.score;
+      }
     }
 }
 
   export default Play;
-  
-
-  
-

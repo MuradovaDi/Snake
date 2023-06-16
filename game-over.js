@@ -1,36 +1,41 @@
+import Play from "./game.js";
+
 class GameOver extends Phaser.Scene {
-    constructor() {
-      super("End");
-    }
-  
-    create() {
-      this.add.text(270, 200, "GAME OVER", {
-        fontSize: 75,
-        color: "#900603"
-      });
+  finalScore = Number(localStorage.getItem("score") || 0);
 
-      this.add.text(235, 350, "LAST SCORE", { 
-        font: "bold 16px sans-serif", 
-        color: "#46c0f9", 
-        align: "center"
-      });
-
-      this.add.text(350, 348, score.toString(), { 
-        font: "bold 20px sans-serif", 
-        color: "#fff", 
-        align: "center" 
-      });
-
-
-      this.add.text(250, 350, "CLICK TO START AGAIN", {
-        fontSize: 32,
-        color: "#fff"
-      });
-  
-      this.input.on("pointerdown", (pointer) => {
-        this.scene.start("Menu");
-      });
-    }
+  constructor() {
+    super("GameOver");
   }
 
-  export default GameOver;
+  create() {
+    this.add.text(200, 100, "GAME OVER", {
+      fontSize: 75,
+      color: "#900603"
+    });
+
+    this.add.text(235, 250, "LAST SCORE", {
+      fontSize: 25,
+      color: "#fff",
+      align: "center"
+    });
+
+    this.add.text(455, 250, `${this.finalScore}`, {
+      fontSize: 25,
+      color: "#fff",
+      align: "center"
+    });
+
+    this.add.text(210, 350, "CLICK TO START AGAIN", {
+      fontSize: 32,
+      color: "#fff"
+    });
+
+    this.input.on("pointerdown", (pointer) => {
+      this.scene.start("Menu");
+    });
+
+    //localStorage.setItem("score", "0");
+  }
+}
+
+export default GameOver;
